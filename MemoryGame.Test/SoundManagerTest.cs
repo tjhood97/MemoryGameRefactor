@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows.Media;
+using MemoryGame.Views;
 
 namespace MemoryGame.Test
 {

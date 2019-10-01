@@ -13,6 +13,8 @@ namespace MemoryGame
     {
         private static MediaPlayer _mediaPlayer = new MediaPlayer();
         private static MediaPlayer _effectPlayer = new MediaPlayer();
+        public const string CorrectRelativeProjectDirectory = "..\\..\\..\\MemoryGame\\Assets";
+        public static string AssetDirectory = Path.Combine(Environment.CurrentDirectory, CorrectRelativeProjectDirectory);
 
         public static void OpenMusic(string relativePath)
         {

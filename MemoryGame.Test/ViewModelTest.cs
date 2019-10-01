@@ -51,10 +51,8 @@ namespace MemoryGame.Test
         public void SelectNothing(int belowRange)
         {
             startMenuDataContext.SelectedCategory = belowRange;
-            startMenuDataContext.StartNewGame();
-            currDataContext = mainWindow.DataContext;
 
-            Assert.IsTrue(CheckType(currDataContext, typeof(StartMenuViewModel)), "Expected DataContext not to change, but it did.");
+            Assert.IsFalse(startMenuDataContext.PlayCommand.CanExecute(startMenuDataContext.CanPlay));
         }
 
         [TestMethod]
@@ -85,7 +83,7 @@ namespace MemoryGame.Test
 
             //If if can't find a named category (1-3 have names), it looks for the directory
             // called Assets/##, which should be an exception
-            Assert.ThrowsException<DirectoryNotFoundException>(new Action(startMenuDataContext.StartNewGame));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(new Action(startMenuDataContext.StartNewGame));
         }
 
         //Test out the game initialization with Animals
