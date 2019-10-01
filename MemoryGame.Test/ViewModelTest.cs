@@ -6,18 +6,20 @@ using MemoryGame.ViewModels;
 using MemoryGame.Models;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace MemoryGame.Test
 {
     [TestClass]
-    public class ViewModelTests
+    public class ViewModelTest
     {
         static MainWindow mainWindow;
         static object currDataContext;
         StartMenuViewModel startMenuDataContext;
         GameViewModel gameDataContext;
         //Obtain the maximum number (category) allowed
-        static readonly int maxCategory = Enum.GetValues(typeof(SlideCategories)).Cast<int>().Max();
+        static readonly Array allCategories = Enum.GetValues(typeof(SlideCategories));
+        static readonly int maxCategory = allCategories.Cast<int>().Max();
 
         //This method is called before every test. 
         [TestInitialize]
@@ -52,23 +54,22 @@ namespace MemoryGame.Test
         {
             startMenuDataContext.SelectedCategory = belowRange;
 
+            //Make sure the Play Button is disabled
             Assert.IsFalse(startMenuDataContext.PlayCommand.CanExecute(startMenuDataContext.CanPlay));
         }
 
         [TestMethod]
         public void SelectValidCategory()
         {
-            for (int cat = 1; cat <= maxCategory; cat++)
+            foreach (SlideCategories cat in allCategories)
             {
-                startMenuDataContext.SelectedCategory = cat;
+                startMenuDataContext.SelectedCategory = (int)cat;
                 startMenuDataContext.StartNewGame();
                 currDataContext = mainWindow.DataContext;
-                gameDataContext = currDataContext as GameViewModel;
 
                 //Make sure the DataContext correctly changed to a GameViewModel
                 Assert.IsTrue(CheckType(currDataContext, typeof(GameViewModel)), "Expected DataContext to become a GameViewModel, but it did not.");
             }
-
         }
 
         [DataTestMethod]
@@ -81,24 +82,35 @@ namespace MemoryGame.Test
             // so we are guaranteed that the number we try is above the range of allowed categories
             startMenuDataContext.SelectedCategory = maxCategory + errorNum;
 
-            //If if can't find a named category (1-3 have names), it looks for the directory
-            // called Assets/##, which should be an exception
-            Assert.ThrowsException<ArgumentOutOfRangeException>(new Action(startMenuDataContext.StartNewGame));
+            //Make sure the Play Button is disabled
+            Assert.IsFalse(startMenuDataContext.PlayCommand.CanExecute(startMenuDataContext.CanPlay));
         }
 
-        //Test out the game initialization with Animals
-        [TestMethod]
-        public void InitializeGame()
+        //Test out the game initialization with a category
+        [DataTestMethod]
+        [DataRow(SlideCategories.Animals)]
+        [DataRow(SlideCategories.Foods)]
+        public void InitializeGame(SlideCategories cat)
         {
-            startMenuDataContext.SelectedCategory = (int)SlideCategories.Animals;
-            startMenuDataContext.StartNewGame();
+            startMenuDataContext.SelectedCategory = (int)cat;
+            startMenuDataContext.PlayCommand.Execute(startMenuDataContext.CanPlay);
             currDataContext = mainWindow.DataContext;
             gameDataContext = currDataContext as GameViewModel;
+            GameInfoViewModel info = gameDataContext.GameInfo;
 
             //Make sure the correct category is chosen
             Assert.AreEqual(gameDataContext.Category, (SlideCategories)startMenuDataContext.SelectedCategory, "Expected category not selected.");
             //Make sure the Timer is created and set to 0 sec
             Assert.AreEqual(gameDataContext.Timer.Time.Seconds, 0);
+            //Make sure the GameInfo context is set up correctly
+            Assert.IsTrue(CheckType(info, typeof(GameInfoViewModel)));
+            //Make sure you have themax match attempts
+            Assert.AreEqual(info.MatchAttempts, 4);
+            //Make sure the score is set to 0
+            Assert.AreEqual(info.Score, 0);
+            //Make sure win and lost message are hidden
+            Assert.AreEqual(info.WinMessage, Visibility.Hidden);
+            Assert.AreEqual(info.LostMessage, Visibility.Hidden);
         }
     }
 }
