@@ -16,6 +16,7 @@ namespace MemoryGame.Test
         static MainWindow mainWindow;
         static object currDataContext;
         StartMenuViewModel startMenuDataContext;
+        SlideCollectionViewModel slideCollection;
         GameViewModel gameDataContext;
         //Obtain the maximum number (category) allowed
         static readonly Array allCategories = Enum.GetValues(typeof(SlideCategories));
@@ -28,6 +29,7 @@ namespace MemoryGame.Test
             mainWindow = new MainWindow();
             currDataContext = mainWindow.DataContext as StartMenuViewModel;
             startMenuDataContext = currDataContext as StartMenuViewModel;
+            slideCollection = new SlideCollectionViewModel();
             gameDataContext = null;
         }
 
@@ -112,5 +114,15 @@ namespace MemoryGame.Test
             Assert.AreEqual(info.WinMessage, Visibility.Hidden);
             Assert.AreEqual(info.LostMessage, Visibility.Hidden);
         }
+
+        //SlideCollectionViewModel Tests
+
+        //Ensures that the wrong directory will throw an exception.
+        [TestMethod]
+        public void CreateSlideWithNoImage()
+        {
+            Assert.ThrowsException<FileNotFoundException>(() => { slideCollection.CreateSlides("\\"); });
+        }
+
     }
 }

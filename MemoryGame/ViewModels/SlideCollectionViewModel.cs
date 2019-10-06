@@ -23,11 +23,6 @@ namespace MemoryGame.ViewModels
         private DispatcherTimer _peekTimer;
         private DispatcherTimer _openingTimer;
 
-        //Interval for how long a user peeks at selections
-        private const int _peekSeconds = 3;
-        //Interval for how long a user has to memorize slides
-        private const int _openSeconds = 5;
-
         //Are selected slides still being displayed
         public bool areSlidesActive
         {
@@ -63,13 +58,13 @@ namespace MemoryGame.ViewModels
         {
             _peekTimer = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 0, _peekSeconds)
+                Interval = new TimeSpan(0, 0, VMConstants.PeekSeconds)
             };
             _peekTimer.Tick += PeekTimer_Tick;
 
             _openingTimer = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 0, _openSeconds)
+                Interval = new TimeSpan(0, 0, VMConstants.OpenSeconds)
             };
             _openingTimer.Tick += OpeningTimer_Tick;
         }
@@ -82,7 +77,7 @@ namespace MemoryGame.ViewModels
             var models = GetPicsFromPath(@imagesPath);
 
             //Create slides with matching pairs from models
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < VMConstants.slideCount; i++)
             {
                 //Create 2 matching slides
                 var newSlide = new PictureViewModel(models[i]);

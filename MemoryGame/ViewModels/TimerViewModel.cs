@@ -12,8 +12,6 @@ namespace MemoryGame.ViewModels
         private DispatcherTimer _playedTimer;
         private TimeSpan _timePlayed;
 
-        private const int _playSeconds = 1;
-
         public TimeSpan Time
         {
             get
