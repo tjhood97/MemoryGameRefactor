@@ -89,14 +89,14 @@ namespace MemoryGame.ViewModels
             if(GameInfo.MatchAttempts < 0)
             {
                 GameInfo.SetGameStatus(false);
-                Slides.RevealUnmatched();
-                Timer.Stop();
+                Slides.RevealUnmatched();              
             }
             if(Slides.AllSlidesMatched)
             {
-                GameInfo.SetGameStatus(true);
-                Timer.Stop();
+                GameInfo.SetGameStatus(true);               
             }
+
+            Timer.Stop();
         }
 
         //Restart game
