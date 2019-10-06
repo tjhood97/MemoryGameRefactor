@@ -9,10 +9,8 @@ namespace MemoryGame.ViewModels
 {
     public class TimerViewModel : ObservableObject
     {
-        private DispatcherTimer _playedTimer;
+        private readonly DispatcherTimer _playTimer;
         private TimeSpan _timePlayed;
-
-        private const int _playSeconds = 1;
 
         public TimeSpan Time
         {
@@ -29,20 +27,22 @@ namespace MemoryGame.ViewModels
 
         public TimerViewModel(TimeSpan time)
         {
-            _playedTimer = new DispatcherTimer();
-            _playedTimer.Interval = time;
-            _playedTimer.Tick += PlayedTimer_Tick;
+            _playTimer = new DispatcherTimer
+            {
+                Interval = time
+            };
+            _playTimer.Tick += PlayedTimer_Tick;
             _timePlayed = new TimeSpan();
         }
 
         public void Start()
         {
-            _playedTimer.Start();
+            _playTimer.Start();
         }
 
         public void Stop()
         {
-            _playedTimer.Stop();
+            _playTimer.Stop();
         }
 
         private void PlayedTimer_Tick(object sender, EventArgs e)
