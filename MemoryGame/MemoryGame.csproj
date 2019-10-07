@@ -67,6 +67,7 @@
     <Compile Include="ViewModels\SlideCollectionViewModel.cs" />
     <Compile Include="ViewModels\StartMenuViewModel.cs" />
     <Compile Include="ViewModels\TimerViewModel.cs" />
+    <Compile Include="ViewModels\VMConstants.cs" />
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
