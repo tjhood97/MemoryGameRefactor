@@ -65,9 +65,9 @@ namespace MemoryGame.ViewModels
         }
 
         //Slide has been clicked
-        public void ClickedSlide(PictureViewModel slide)
+        public void ComputeSlide(PictureViewModel slide)
         {
-            if (Slides.canSelect)
+            if (Slides.CanSelect && slide.IsSelectable)
             {
                 Slides.SelectSlide(slide);
             }

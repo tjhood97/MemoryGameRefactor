@@ -55,8 +55,8 @@ namespace MemoryGame.ViewModels
             }
         }
 
-        //Can user select a slide
-        public bool canSelect { get; private set; }
+        //Can the user select a slide
+        public bool CanSelect { get; private set; }
 
 
         public SlideCollectionViewModel()
@@ -154,7 +154,7 @@ namespace MemoryGame.ViewModels
         {
             SelectedSlide1 = null;
             SelectedSlide2 = null;
-            canSelect = false;
+            CanSelect = false;
         }
 
         //Reveal all unmatched slides
@@ -200,12 +200,12 @@ namespace MemoryGame.ViewModels
         private void ShuffleSlides()
         {
             //Randomizing slide indexes
-            var rnd = new Random();
+            var randomSlideIndex = new Random();
             //Shuffle memory slides
             for (int i = 0; i < 64; i++)
             {
                 MemorySlides.Reverse();
-                MemorySlides.Move(rnd.Next(0, MemorySlides.Count), rnd.Next(0, MemorySlides.Count));
+                MemorySlides.Move(randomSlideIndex.Next(0, MemorySlides.Count), randomSlideIndex.Next(0, MemorySlides.Count));
             }
         }
 
@@ -215,7 +215,7 @@ namespace MemoryGame.ViewModels
             foreach (var slide in MemorySlides)
             {
                 slide.StopPeeking();
-                canSelect = true;
+                CanSelect = true;
             }
             OnPropertyChanged("areSlidesActive");
             _openingTimer.Stop();
@@ -229,7 +229,7 @@ namespace MemoryGame.ViewModels
                 if(!slide.HasBeenMatched)
                 {
                     slide.StopPeeking();
-                    canSelect = true;
+                    CanSelect = true;
                 }
             }
             OnPropertyChanged("areSlidesActive");
