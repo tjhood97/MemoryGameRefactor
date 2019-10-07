@@ -4,10 +4,6 @@ namespace MemoryGame.ViewModels
 {
     public class GameInfoViewModel : ObservableObject
     {
-        private const int _maxAttempts = 4;
-        private const int _pointAward = 75;
-        private const int _pointDeduction = 15;
-
         private int _matchAttempts;
         private int _score;
 
@@ -78,7 +74,7 @@ namespace MemoryGame.ViewModels
         public void ResetInfo()
         {
             Score = 0;
-            MatchAttempts = _maxAttempts;
+            MatchAttempts = VMConstants.MaxAttempts;
             _isGameWon = null;
             OnPropertyChanged("LostMessage");
             OnPropertyChanged("WinMessage");
@@ -86,13 +82,13 @@ namespace MemoryGame.ViewModels
 
         public void Award()
         {
-            Score += _pointAward;
+            Score += VMConstants.PointAward;
             SoundManager.PlayCorrect();
         }
 
         public void Penalize()
         {
-            Score -= _pointDeduction;
+            Score -= VMConstants.PointDeduction;
             MatchAttempts--;
             SoundManager.PlayIncorrect();
         }

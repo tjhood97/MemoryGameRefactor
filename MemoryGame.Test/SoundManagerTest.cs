@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows.Media;
+using MemoryGame.Views;
 
 namespace MemoryGame.Test
 {
@@ -57,9 +57,8 @@ namespace MemoryGame.Test
         #endregion
 
         [TestMethod]
-        [DataRow("background_music.mp3")]
+        [DataRow("Other\\background_music.mp3")]
         [DataRow("SoundEffects\\correct_match.mp3")]
-
         public void SoundFileFound(string filename)
         {
             string filepath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, SoundManager.CorrectRelativeProjectDirectory, filename);
